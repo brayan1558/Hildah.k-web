@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>A Masterpiece for My Love ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;800&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --pure-red: #ff3366;
+      --deep-maroon: #2d000a;
+      --glow-pink: rgba(255, 51, 102, 0.4);
+      --gold: #ffd700;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      margin: 0; background: #050005; color: white;
+      min-height: 100vh; display: flex; justify-content: center;
+      align-items: center; overflow: hidden; font-family: 'Inter', sans-serif;
+    }
+
+    #canvas-bg {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at center, #3d0014 0%, #050005 100%);
+      z-index: 1;
+    }
+
+    .card {
+      position: relative; z-index: 10;
+      width: 90%; max-width: 380px;
+      background: rgba(45, 0, 10, 0.95);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 45px; padding: 40px 25px; text-align: center;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.9);
+    }
+
+    .hidden { display: none !important; }
+
+    .icon-box {
+      width: 80px; height: 80px; background: #111;
+      border-radius: 25px; margin: 0 auto 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 40px; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    }
+
+    h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 15px; }
+   
+    .fancy-intro { font-family: 'Dancing Script', cursive; font-size: 1.4rem; color: var(--gold); margin-bottom: 20px; display: block; }
+
+    input {
+      width: 100%; padding: 18px; border-radius: 20px;
+      border: 1px solid var(--pure-red); background: rgba(0,0,0,0.4);
+      color: white; text-align: center; margin-bottom: 25px;
+      font-size: 1rem; outline: none; transition: 0.3s;
+    }
+
+    .btn-white {
+      background: white; color: #ff3366; padding: 18px;
+      border-radius: 50px; font-weight: 800; border: none; cursor: pointer;
+      width: 100%; font-size: 0.9rem; text-transform: uppercase;
+      letter-spacing: 1px; box-shadow: 0 0 20px rgba(255,255,255,0.4);
+      margin-bottom: 10px;
+    }
+
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+    .menu-item { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; font-size: 35px; }
+
+    .signature { margin-top: 30px; font-size: 0.75rem; letter-spacing: 3px; color: var(--gold); font-weight: 800; opacity: 0.7; }
+
+    /* TYPING LETTER STYLES */
+    #text-box {
+      min-height: 250px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem;
+      text-align: left;
+      line-height: 1.5;
+      color: #fff;
+      padding: 10px;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 3px;
+      background-color: var(--gold);
+      margin-left: 3px;
+      animation: blink 0.8s infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* LOGOUT NOTE OVERLAY */
+    #logout-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(5, 0, 5, 0.98); z-index: 1000;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 20px;
+    }
+
+    .reason-zone { width: 100%; height: 200px; margin: 0 auto 10px; position: relative; display: flex; justify-content: center; align-items: center; }
+    .heart-core { font-size: 60px; filter: drop-shadow(0 0 20px var(--pure-red)); animation: heartbeat 1.5s infinite; }
+    @keyframes heartbeat { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+    .floating-reason {
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      background: white; color: var(--pure-red);
+      padding: 12px 20px; border-radius: 20px;
+      font-size: 1rem; font-weight: 800; text-align: center;
+      white-space: nowrap; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      animation: floatClear 2.5s ease-out forwards;
+      z-index: 50; border: 2px solid var(--gold);
+    }
+    @keyframes floatClear {
+      0% { opacity: 0; transform: translate(-50%, 0) scale(0.5); }
+      20% { opacity: 1; transform: translate(-50%, -40px) scale(1.1); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -100px) scale(0.9); }
+    }
+
+    #music-alert {
+      position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: black; padding: 10px 15px;
+      border-radius: 15px; font-size: 0.75rem; font-weight: bold;
+      width: 80%; box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+      z-index: 100;
+    }
+
+    .wish-drop {
+      position: fixed; z-index: 100;
+      background: white; color: #ff3366; padding: 8px 15px;
+      border-radius: 15px; font-weight: bold; font-size: 0.8rem;
+      pointer-events: none; white-space: nowrap;
+      animation: wishFall 5s linear forwards;
+    }
+    @keyframes wishFall {
+      0% { transform: translateY(-10vh); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(110vh); opacity: 0; }
+    }
+
+    .flower-rain { position: fixed; pointer-events: none; z-index: 99; font-size: 25px; animation: rain 4s linear forwards; top: -10vh; }
+    @keyframes rain { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(110vh) rotate(360deg); } }
+    #hearts-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+  </style>
+</head>
+<body>
+
+  <div id="canvas-bg"></div>
+  <div id="hearts-layer"></div>
+
+  <div id="logout-overlay" class="hidden">
+    <h1 style="font-family:'Dancing Script'; color: var(--gold); font-size: 2.5rem;">Goodbye, My Queen</h1>
+    <p style="font-size: 1.2rem; line-height: 1.6;">Your presence is the greatest gift.<br>See you in my dreams tonight... ❤️</p>
+  </div>
+
+  <div class="card" id="page-name">
+    <style> .round-photo { width: 200px; /* set size */ height: 200px; /* keep it square */ border-radius: 50%; /* makes it round */ object-fit: cover; /* ensures the image fits nicely */ } </style>
+  <img src="png.jpg" alt="png.jpg"height="100"width="100"class="round-photo">
+    <h2>Greetings, Love</h2>
+    <span class="fancy-intro">"love wins when both feelings are real"</span>
+    <input type="text" id="userName" placeholder="Your lovely name...">
+    <button class="btn-white" onclick="handleName()">PROCEED</button>
+  </div>
+
+  <div class="card hidden" id="page-code">
+    <div class="icon-box">🔐</div>
+    <p id="personal-req"></p>
+    <input type="password" id="secretCode" placeholder="Key (123)">
+    <button class="btn-white" onclick="handleCode()">UNLOCK</button>
+  </div>
+
+  <div class="card hidden" id="page-menu">
+    <h1 id="welcome-title" style="font-family:'Dancing Script'; margin-bottom:20px;"></h1>
+    <div class="menu-grid">
+      <div class="menu-item" onclick="showPage('page-letter')">📜</div>
+      <div class="menu-item" onclick="showPage('page-jar')">❤️</div>
+      <div class="menu-item" onclick="showPage('page-music')">🎵</div>
+      <div class="menu-item" onclick="showPage('page-game')">💝</div>
+    </div>
+    <button class="btn-white" onclick="startLogout()" style="margin-top: 25px; background: none; border: 1px solid white; color: white;">LOGOUT</button>
+    <div class="signature">BRIAN N IRUNGU</div>
+  </div>
+
+  <div class="card hidden" id="page-letter">
+    <div id="text-box"></div>
+    <button class="btn-white" onclick="showPage('page-menu')" style="margin-top:20px;">BACK</button>
+  </div>
+
+  <div class="card hidden" id="page-jar">
+    <h2>Reasons Why</h2>
+    <div class="reason-zone" id="reason-container">
+      <div class="heart-core">❤️</div>
+    </div>
+    <button class="btn-white" onclick="popReason()">PICK A REASON</button>
+    <button class="btn-white" onclick="showPage('page-menu')" style="background:none; border:1px solid white; color:white;">BACK</button>
+  </div>
+
+  <div class="card hidden" id="page-gift">
+    <h2>Voucher Vault</h2>
+    <div id="voucher-res"></div>
+    <button id="gen-btn" class="btn-white" onclick="generateVoucher()">CLAIM SURPRISE</button>
+    <button class="btn-white" onclick="showPage('page-menu')" style="background:none; border:1px solid white; color:white;">BACK</button>
+  </div>
+
+  <div class="card hidden" id="page-music">
+    <h2>This song reminds me of you❤️</h2>
+    <div style="border-radius:20px; overflow:hidden;">
+        <iframe width="100%" height="200" src="Download (12).mp4" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <button class="btn-white" onclick="showPage('page-menu')" style="margin-top:20px;">BACK</button>
+  </div>
+
+  <div class="card hidden" id="page-game">
+    <h2>Flower Explosion</h2>
+    <div style="font-size:100px; cursor:pointer;" onclick="flowerExplosion()">💝</div>
+    <p style="font-size: 0.8rem; color: var(--gold);">Tap the heart to rain wishes!</p>
+    <button class="btn-white" onclick="showPage('page-menu')">BACK</button>
+  </div>
+
+  <script>
+    let savedName = "";
+    let usedReasons = [];
+    let usedWishes = [];
+    let typingTimer = null;
+
+    const allReasons = [
+      "Your heart is made of gold 💛", "Your smile lights up my world ☀️",
+      "You handle everything with grace ✨", "You are my safest place ⚓",
+      "Your laugh is my favorite song 🎵", "You make moments magical 🪄",
+      "Your kindness is a sea 🌊", "The way you look at me 🥺",
+      "My best friend and lover 👩+❤️+👨", "Because you are YOU 💎"
+    ];
+
+    const birthdayWishes = [
+      "May all your dreams come true ✨", "You deserve the world 🌍",
+      "Cheers to another beautiful year 🥂", "Sending you so much love ❤️",
+      "Keep shining kamamie❤️, beautiful soul 🌟", "Happy valentine Hildah❤️, My Masterpiece 🎨",
+      "Today is all about YOU 👸", "Forever grateful for you 🙏"
+    ];
+
+    function showPage(id) {
+      document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+     
+      if(id !== 'page-letter') {
+          clearTimeout(typingTimer);
+      } else {
+          runLetter();
+      }
+
+      if(id === 'page-music') {
+          const alertBox = document.getElementById('music-alert');
+          alertBox.classList.remove('hidden');
+          setTimeout(() => alertBox.classList.add('hidden'), 5000);
+      }
+    }
+
+    function handleName() {
+      savedName = document.getElementById('userName').value;
+      if(!savedName) return;
+      document.getElementById('personal-req').innerText = "Enter the secret key to unlock your surprises, " + savedName;
+      showPage('page-code');
+    }
+
+    function handleCode() {
+      if(document.getElementById('secretCode').value === "0704643865") {
+        document.getElementById('welcome-title').innerText = "Happy valentine, " + savedName;
+        showPage('page-menu');
+      } else {
+          alert("Wrong key! Hint: 704......");
+      }
+    }
+
+    function runLetter() {
+      const box = document.getElementById('text-box');
+      box.innerHTML = "";
+      const fullText = `My Dearest ${savedName}, \n\nOn this special day, I want you to know how truly incredible you are. \n\nYou are a masterpiece whose presence lights up every room you enter. I hope today brings you as much happiness as you give to everyone around you. \n\nMay this year be your most beautiful chapter yet, filled with love and laughter. \n\nHappy valentine, my queen—I love you more than words can say! ❤️`;
+
+      let i = 0;
+      function typeChar() {
+        if (i < fullText.length) {
+          if (fullText.charAt(i) === "\n") {
+            box.innerHTML += "<br>";
+          } else {
+            box.innerHTML += fullText.charAt(i);
+          }
+          i++;
+          typingTimer = setTimeout(typeChar, 40);
+        } else {
+          box.innerHTML += '<span class="cursor"></span>';
+        }
+      }
+      typeChar();
+    }
+
+    function popReason() {
+      const zone = document.getElementById('reason-container');
+      if (usedReasons.length === allReasons.length) usedReasons = [];
+      let available = allReasons.filter(r => !usedReasons.includes(r));
+      let randomR = available[Math.floor(Math.random() * available.length)];
+      usedReasons.push(randomR);
+      const note = document.createElement('div');
+      note.className = 'floating-reason'; note.innerText = randomR;
+      zone.appendChild(note);
+      setTimeout(() => note.remove(), 2500);
+    }
+
+    function generateVoucher() {
+      const gifts = ["Luxury Dinner 🥂", "Unlimited Hugs 🤗", "Surprise Picnic 🧺", "Shopping Spree 🛍️", "Weekend Getaway 🚗", "Jewelry Surprise 💍"];
+      const selected = gifts[Math.floor(Math.random() * gifts.length)];
+      document.getElementById('voucher-res').innerHTML = `<div style="background:white; color:black; padding:15px; border-radius:15px; margin-bottom:15px; border: 2px solid var(--gold);"><h3>${selected}</h3></div>`;
+      document.getElementById('gen-btn').style.display = 'none';
+      alert("🎁 Surprise! Please screenshot this!");
+    }
+
+    function flowerExplosion() {
+      const flowers = ['🌸', '🌹', '🌺', '🌻', '🌼', '🌷'];
+      for(let i=0; i<30; i++) {
+        setTimeout(() => {
+          const f = document.createElement('div');
+          f.className = 'flower-rain';
+          f.innerHTML = flowers[Math.floor(Math.random()*flowers.length)];
+          f.style.left = Math.random() * 100 + 'vw';
+          document.body.appendChild(f);
+         
+          if(i % 5 === 0) {
+            if (usedWishes.length === birthdayWishes.length) usedWishes = [];
+            let availableWishes = birthdayWishes.filter(w => !usedWishes.includes(w));
+            let randomW = availableWishes[Math.floor(Math.random() * availableWishes.length)];
+            usedWishes.push(randomW);
+            const w = document.createElement('div');
+            w.className = 'wish-drop';
+            w.innerText = randomW;
+            w.style.left = Math.random() * 60 + 20 + 'vw';
+            document.body.appendChild(w);
+            setTimeout(() => w.remove(), 5000);
+          }
+          setTimeout(() => f.remove(), 4000);
+        }, i * 120);
+      }
+    }
+
+    /* LOGOUT LOGIC */
+    function startLogout() {
+      document.getElementById('logout-overlay').classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('logout-overlay').classList.add('hidden');
+        showPage('page-name');
+        document.getElementById('userName').value = "";
+        document.getElementById('secretCode').value = "";
+      }, 3000);
+    }
+
+    setInterval(() => {
+      const h = document.createElement('div'); h.innerHTML = '❤️'; h.style.position = 'fixed';
+      h.style.left = Math.random() * 100 + 'vw'; h.style.top = '110vh'; h.style.opacity = '0.2';
+      h.style.transition = '7s linear'; document.getElementById('hearts-layer').appendChild(h);
+      setTimeout(() => h.style.transform = 'translateY(-120vh)', 50);
+      setTimeout(() => h.remove(), 7000);
+    }, 1500);
+  </script>
+</body>
+</html>
